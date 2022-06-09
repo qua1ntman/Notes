@@ -1,0 +1,35 @@
+<div class="app-wrapper">
+  <header><h1 class="header">Note redactor test task</h1></header>
+  <main class="main">
+    <section class="notes-section">
+      <div class="support">Click on any tag to find matching posts or input tag (with # to find posts) and tap Find Tag button</div>
+      <div class="form-container">
+        <textarea type="text" name="new" class="add-input" rows="3" [(ngModel)]="newNoteText"></textarea>
+        <div class="btn-container">
+          <button class="no-tag btn" *ngIf="!isSearchTags"(click)="findByTags()">Find Tag</button>
+          <button class="no-tag btn" *ngIf="isSearchTags"(click)="findByTags()">Back</button>
+          <button class="no-tag btn" (click)="addNote()">Add</button>
+        </div> 
+      </div>
+      <div class="notes-container">
+        <div class="note" *ngFor="let note of notes; trackBy: trackByFn">
+          <p class="note-text">{{ note.text }}</p>
+          <div class="tags">
+            <button class="tag btn" (click)="sortByTag(tag)" *ngFor="let tag of note.tags; trackBy: trackByFn">{{ tag }}</button>
+          </div>
+          <div class="btn-container">
+            <button class="no-tag btn" (click)="deleteNote(note.id)">Delete</button>
+            <button class="no-tag btn" (click)="openEditor(note)">Edit</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="edit-section" *ngIf="isEditorOpen">
+      <textarea type="text" rows="3" [(ngModel)]="textEdit"></textarea>
+      <button class="no-tag btn" (click)="closeEditor()">Save</button>
+    </section>
+  </main>
+  <footer class="footer">
+    <div>Created by <strong>Mikhail Ashla</strong></div>
+  </footer>
+</div>
