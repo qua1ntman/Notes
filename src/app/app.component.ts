@@ -13,50 +13,61 @@ export class AppComponent implements OnInit{
   newNoteText = '';
   notes!: Note[];
 
-  noteEdit!: Note
-  textEdit = ''
+  noteEdit!: Note;
+  textEdit = '';
   isEditorOpen = false;
-  isSearchTags = false
+  
+  isSearchTags = false;
+  safeData!: Note[];
 
   constructor(private dataService: AppDataService){};
 
   ngOnInit(): void {
-    this.getNotes()
+    this.getNotes();
   };
 
   getNotes() {
     this.dataService.getData()
       .pipe(retry(3))
       .subscribe(data => {
-        this.notes = JSON.parse(data).notes
+        this.notes = JSON.parse(data).notes;
       });
-  }
+  };
 
   findTags(text: string) {
     return text.split(' ')
     .map(item => item.replace(/[^a-zа-яё#0-9]/gi, '').toLocaleLowerCase())
-    .filter(item => item.startsWith('#'))
+    .filter(item => item.startsWith('#'));
   };
 
   addNote() {
-    let id: number|string = (+this.notes[this.notes.length-1].id+1).toString();
+    if (this.newNoteText.length > 0) {
+      let id: string = (+this.notes[this.notes.length-1].id+1).toString();
+      let tags: string[] = this.findTags(this.newNoteText);
+      let text = this.newNoteText;
+      let newNote: Note = {id, text, tags};
 
-    let tags: string[] = this.findTags(this.newNoteText);
-
-    let text = this.newNoteText;
-    let newNote: Note = {id, text, tags};
-    this.notes.push(newNote);
-
-    this.dataService.postData(this.notes);
-    this.newNoteText = ''
+      this.notes.push(newNote);
+      this.dataService.postData(this.notes);
+      this.newNoteText = '';
+    }
   };
 
   findByTags() {
-    let tags = this.findTags(this.newNoteText)
-    tags.forEach(tag => {
-      this.notes = this.notes.filter(note => note.tags.includes(tag))
-    })
-  }
+    if (this.newNoteText.length > 0) {
+      let tags = this.findTags(this.newNoteText);
+      this.safeData = this.notes;
+      tags.forEach(tag => {
+        this.notes = this.notes.filter(note => note.tags.includes(tag));
+      })
+      this.isSearchTags = true;
+    }
+  };
+
+  goBack() {
+    this.notes = this.safeData;
+    this.isSearchTags = false;
+  };
 
   editNote(id: string, text: string) {
     this.notes = this.notes.map(note => {
@@ -67,26 +78,28 @@ export class AppComponent implements OnInit{
       return note
     })
     this.dataService.postData(this.notes);
-  }
+  };
 
   deleteNote(id: string) {
-    this.notes = this.notes.filter(note => note.id !== id)
+    this.notes = this.notes.filter(note => note.id !== id);
     this.dataService.postData(this.notes);
   }
 
   sortByTag(tag: string) {
-    this.notes = this.notes.filter(note => note.tags.includes(tag))
+    this.safeData = this.notes;
+    this.notes = this.notes.filter(note => note.tags.includes(tag));
+    this.isSearchTags = true;
   }
 
   openEditor(note: Note) {
-    this.noteEdit = note
-    this.textEdit = note.text
-    this.isEditorOpen = true
+    this.noteEdit = note;
+    this.textEdit = note.text;
+    this.isEditorOpen = true;
   }
   
   closeEditor() {
-    this.editNote(this.noteEdit.id, this.textEdit)
-    this.isEditorOpen = false
+    this.editNote(this.noteEdit.id, this.textEdit);
+    this.isEditorOpen = false;
   }
 
   trackByFn(index: any, item: any) {
