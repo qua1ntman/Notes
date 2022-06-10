@@ -13,6 +13,8 @@ export class AppComponent implements OnInit{
   newNoteText = '';
   notes!: Note[];
 
+  isLoaded = false;
+
   noteEdit!: Note;
   textEdit = '';
   isEditorOpen = false;
@@ -31,6 +33,7 @@ export class AppComponent implements OnInit{
       .pipe(retry(3))
       .subscribe(data => {
         this.notes = JSON.parse(data).notes;
+        this.isLoaded = true
       });
   };
 

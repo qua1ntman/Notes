@@ -11,7 +11,8 @@
           <button class="no-tag btn" *ngIf="!isSearchTags" (click)="addNote()">Add</button>
         </div> 
       </div>
-      <div class="notes-container">
+      <div class="loader" *ngIf="!isLoaded"><div class="lds-ripple"><div></div><div></div></div></div>
+      <div *ngIf="isLoaded" class="notes-container">
         <div class="note" *ngFor="let note of notes; trackBy: trackByFn">
           <p class="note-text" [innerHTML]="note.text | textLight"></p>
           <div class="tags">
