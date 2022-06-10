@@ -28,7 +28,8 @@ $mainFont: 'Verdana', 'sans-serif';
 
 .app-wrapper, 
 .btn {
-    transition: filter .2s ease-in-out;
+    transition: filter color .2s ease-in-out;
+    transition: background-color .2s ease-in-out;
 }
 
 .header {
@@ -64,16 +65,16 @@ $mainFont: 'Verdana', 'sans-serif';
 
 .add-input {
     box-sizing: border-box;
-    min-width: 60%;
-    max-width: 60%;
+    min-width: calc(100% - 140px);
+    max-width: calc(100% - 140px);
     min-height: 50px;
     max-height: 50px;
     &:focus {
         border: 3px solid $color4;
     }
     @media screen and (max-width: 600px) {
-        min-width: 50%;
-        max-width: 50%;
+        min-width: calc(100% - 120px);
+        max-width: calc(100% - 120px);
     }
 }
 
@@ -95,8 +96,9 @@ $mainFont: 'Verdana', 'sans-serif';
     height: 80%;
 }
 
+
+
 .notes-container {
-    // height: 70%;
     overflow-y: scroll;
     scroll-behavior: smooth;
     &::-webkit-scrollbar {
@@ -139,28 +141,36 @@ $mainFont: 'Verdana', 'sans-serif';
     display: flex;
     justify-content: space-around;
     align-self: flex-end;
-    width: 40%;
+    width: 130px;
+    @media screen and (max-width: 600px) {
+        width: 110px;
+    }
 }
 
 .btn {
-    color: white;   
     filter: drop-shadow(3px 3px 5px $color3);
     outline: none;
     border: none;
     border-radius: 3px;
     padding: 5px;
-    &:hover {
-        filter: drop-shadow(0 0px 2px $color3);
-        cursor: pointer;
-    }
+
 }
 
 .no-tag {
     background-color: $color4;
     font-size: 17px;
+    box-sizing: border-box;
+    color: white;   
+    &:hover {
+        background-color: $mainColor;
+        color: $color4;
+        border: 2px solid #1e1e22;
+        padding: 3px;
+        filter: drop-shadow(0 0px 2px $color3);
+        cursor: pointer;
+    }
     @media screen and (max-width: 600px) {
         font-size: 13px;
-
     }
 }
 
@@ -171,8 +181,36 @@ $mainFont: 'Verdana', 'sans-serif';
 }
 
 .tag {
+    color: white;   
+    position: relative;
     width: min-content;
     background-color: $color3;
+    margin: 10px 10px 0 0;
+    &:hover {
+        filter: drop-shadow(0 0px 2px $color3);
+        cursor: pointer;
+    }
+}
+
+.del-tag {
+    background-color: #1e1e22;
+    border-radius: 50%;
+    border: none;
+    box-sizing: border-box;
+    color: $mainColor;
+    font-size: 17px;
+    padding: 5px;
+    position: absolute;
+    line-height: 10px;
+    top: -10px;
+    right: -10px;
+    &:hover {
+        cursor: pointer;
+        background-color: $mainColor;
+        color: #1e1e22;
+        border: 2px solid #1e1e22;
+        padding: 2px;
+    }
 }
 
 .edit-section-container {
