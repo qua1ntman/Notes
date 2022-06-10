@@ -28,8 +28,7 @@ $mainFont: 'Verdana', 'sans-serif';
 
 .app-wrapper, 
 .btn {
-    transition: filter color .2s ease-in-out;
-    transition: background-color .2s ease-in-out;
+    transition: background-color .2s ease-in-out, filter .2s ease-in-out, color .2s ease-in-out;
 }
 
 .header {
