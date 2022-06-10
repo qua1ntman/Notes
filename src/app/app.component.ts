@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { retry } from 'rxjs';
-import { AppDataService } from './app-data.service';
+import { AppDataService } from './services/app-data.service';
 import { Note } from './interfaces/note';
 
 @Component({
@@ -39,6 +39,17 @@ export class AppComponent implements OnInit{
     .map(item => item.replace(/[^a-zа-яё#0-9]/gi, '').toLocaleLowerCase())
     .filter(item => item.startsWith('#'));
   };
+
+  removeTag(event: any, note: Note, delTag: string) {
+    event.stopPropagation();
+    let text = note.text.split(' ')
+      .map((word) => {
+        if (word.toLocaleLowerCase() === delTag) word = word.replace(/#/gi, '')
+        return word 
+      })
+      .join(' ')
+      this.editNote(note.id, text)
+  }
 
   addNote() {
     if (this.newNoteText.length > 0) {
