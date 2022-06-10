@@ -7,7 +7,7 @@ import { Note } from '../interfaces/note';
   providedIn: 'root'
 })
 export class AppDataService {
-  URL = 'http://localhost:3000/notes'
+  URL = 'https://morning-bastion-67152.herokuapp.com/notes'
   constructor(private http: HttpClient) { }
 
   getData(): Observable<any> {
