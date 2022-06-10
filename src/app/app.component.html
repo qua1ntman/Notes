@@ -7,8 +7,8 @@
         <textarea type="text" name="new" class="add-input textarea" rows="3" [(ngModel)]="newNoteText"></textarea>
         <div class="btn-container">
           <button class="no-tag btn" *ngIf="isSearchTags"(click)="goBack()">Back</button>
-          <button class="no-tag btn" *ngIf="!isSearchTags"(click)="findByTags()">Find Tag</button>
-          <button class="no-tag btn" *ngIf="!isSearchTags" (click)="addNote()">Add</button>
+          <button class="no-tag btn" *ngIf="!isSearchTags"(click)="findByTags()" [disabled]="newNoteText === ''">Find Tag</button>
+          <button class="no-tag btn" *ngIf="!isSearchTags" (click)="addNote()" [disabled]="newNoteText === ''">Add</button>
         </div> 
       </div>
       <div class="loader" *ngIf="!isLoaded"><div class="lds-ripple"><div></div><div></div></div></div>

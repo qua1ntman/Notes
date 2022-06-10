@@ -55,7 +55,6 @@ export class AppComponent implements OnInit{
   }
 
   addNote() {
-    if (this.newNoteText.length > 0) {
       let id: string = (+this.notes[this.notes.length-1].id+1).toString();
       let tags: string[] = this.findTags(this.newNoteText);
       let text = this.newNoteText;
@@ -64,18 +63,15 @@ export class AppComponent implements OnInit{
       this.notes.push(newNote);
       this.dataService.postData(this.notes);
       this.newNoteText = '';
-    }
   };
 
   findByTags() {
-    if (this.newNoteText.length > 0) {
       let tags = this.findTags(this.newNoteText);
       this.safeData = this.notes;
       tags.forEach(tag => {
         this.notes = this.notes.filter(note => note.tags.includes(tag));
       })
       this.isSearchTags = true;
-    }
   };
 
   goBack() {
