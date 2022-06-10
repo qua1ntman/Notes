@@ -5,10 +5,12 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { TextLightPipe } from './pipes/text-light.pipe';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TextLightPipe
   ],
   imports: [
     BrowserModule,
