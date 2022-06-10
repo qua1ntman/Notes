@@ -1,0 +1,38 @@
+<div class="app-wrapper">
+  <header><h1 class="header">Note redactor test task</h1></header>
+  <main class="main">
+    <section class="notes-section">
+      <div class="support">Click on any tag to find matching notes or input tag (with # to find notes) and tap Find Tag button</div>
+      <div class="form-container">
+        <textarea type="text" name="new" class="add-input textarea" rows="3" [(ngModel)]="newNoteText"></textarea>
+        <div class="btn-container">
+          <button class="no-tag btn" *ngIf="isSearchTags"(click)="goBack()">Back</button>
+          <button class="no-tag btn" *ngIf="!isSearchTags"(click)="findByTags()" [disabled]="newNoteText === ''">Find Tag</button>
+          <button class="no-tag btn" *ngIf="!isSearchTags" (click)="addNote()" [disabled]="newNoteText === ''">Add</button>
+        </div> 
+      </div>
+      <div class="loader" *ngIf="!isLoaded"><div class="lds-ripple"><div></div><div></div></div></div>
+      <div *ngIf="isLoaded" class="notes-container">
+        <div class="note" *ngFor="let note of notes; trackBy: trackByFn">
+          <p class="note-text" [innerHTML]="note.text | textLight"></p>
+          <div class="tags">
+            <button class="tag btn" (click)="sortByTag(tag)" *ngFor="let tag of note.tags; trackBy: trackByFn">{{ tag }}<button (click)="removeTag($event, note, tag)" class="del-tag">&#215;</button></button>
+          </div>
+          <div class="btn-container">
+            <button class="no-tag btn" (click)="deleteNote(note.id)">Delete</button>
+            <button class="no-tag btn" (click)="openEditor(note)">Edit</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="edit-section-container" *ngIf="isEditorOpen">
+      <div class="edit-section">
+        <textarea class="edit-input textarea" type="text" rows="3" [(ngModel)]="textEdit"></textarea>
+        <button class="no-tag btn" (click)="closeEditor()">Save</button>
+      </div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div>Created by <strong>Mikhail Ashla</strong></div>
+  </footer>
+</div>
